@@ -41,8 +41,9 @@ COPY --from=build-stage /tmp/build/index.js ./index.js
 # Additional Environment Variables
 ENV NODE_ENV production
 
-# Add scripts volumes
-# VOLUME /app/scripts
+# Create startup script
+COPY start.sh .
+RUN chmod +x start.sh
 
-# Start the app with node
-CMD ["node", "--es-module-specifier-resolution=node", "index.js"]
+# Start the app with our startup script
+CMD ["./start.sh"]
