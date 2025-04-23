@@ -7,9 +7,14 @@ import { importURLToString } from "./utils/functions/importURLToString.js";
 import { RawonLogger } from "./utils/structures/RawonLogger.js";
 import { ensureDirectoriesExist } from "./config";
 
+try {
+    ensureDirectoriesExist();
+  } catch (error) {
+    console.error("Failed to ensure directories exist:", error);
+  }
+
 const log = new RawonLogger({ prod: isProd });
 
-ensureDirectoriesExist();
 
 const manager = new ShardingManager(nodePath.resolve(importURLToString(import.meta.url), "bot.js"), {
     totalShards: shardsCount,
