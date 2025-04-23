@@ -5,8 +5,11 @@ import { ShardingManager } from "discord.js";
 import { enableRepl, isProd, shardingMode, shardsCount } from "./config/index.js";
 import { importURLToString } from "./utils/functions/importURLToString.js";
 import { RawonLogger } from "./utils/structures/RawonLogger.js";
+import { ensureDirectoriesExist } from "./config";
 
 const log = new RawonLogger({ prod: isProd });
+
+ensureDirectoriesExist();
 
 const manager = new ShardingManager(nodePath.resolve(importURLToString(import.meta.url), "bot.js"), {
     totalShards: shardsCount,
