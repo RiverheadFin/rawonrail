@@ -41,9 +41,12 @@ COPY --from=build-stage /tmp/build/index.js ./index.js
 # Additional Environment Variables
 ENV NODE_ENV production
 
-# Create startup script
-COPY start.sh .
-RUN chmod +x start.sh
+# Create the startup script directly in the Dockerfile
+RUN echo '#!/bin/sh' > start.sh && \
+    echo 'mkdir -p "${DATA_DIRECTORY:-./src/data}"' >> start.sh && \
+    echo 'mkdir -p "${APP_DIRECTORY:-./src/data/app}"' >> start.sh && \
+    echo 'node --es-module-specifier-resolution=node index.js' >> start.sh && \
+    chmod +x start.sh
 
 # Start the app with our startup script
 CMD ["./start.sh"]
